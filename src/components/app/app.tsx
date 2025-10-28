@@ -6,6 +6,7 @@ import FavoritesScreen from '../../pages/favorites-screen/favorites-screen.tsx';
 import OfferScreen from '../../pages/offer-screen/offer-screen.tsx';
 import PrivateRoute from '../private-route.tsx';
 import {HelmetProvider} from 'react-helmet-async';
+import NotFoundScreen from '../../pages/not-found-screen/not-found-screen.tsx';
 type AppProps = {
   offersCount: number;
 }
@@ -37,10 +38,10 @@ function App({offersCount}: AppProps) {
             path={AppRoute.Offer}
             element={<OfferScreen/>}
           />
-          {/*<Route*/}
-          {/*  path="*"*/}
-          {/*  element={NotFoundScreen/>}*/}
-          {/*/>*/}
+          <Route
+            path="*"
+            element={<NotFoundScreen/>}
+          />
         </Routes>
       </BrowserRouter>
     </HelmetProvider>
