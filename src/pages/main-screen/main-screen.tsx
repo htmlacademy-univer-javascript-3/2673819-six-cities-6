@@ -1,11 +1,13 @@
-import PlaceCard from '../../components/place-card/place-card.tsx';
+
 import Logo from '../../components/logo/logo.tsx';
+import {OfferProps} from '../../types/offer.ts';
+import PlaceCardList from '../../components/place-card-list/place-card-list.tsx';
 
 type MainScreenProps = {
-  offersCount: number;
+  offers: OfferProps[];
 };
 
-function MainScreen({offersCount}: MainScreenProps): JSX.Element {
+function MainScreen({offers}: MainScreenProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -80,7 +82,7 @@ function MainScreen({offersCount}: MainScreenProps): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offersCount} places to stay in Amsterdam</b>
+              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -107,53 +109,8 @@ function MainScreen({offersCount}: MainScreenProps): JSX.Element {
                   </li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                <PlaceCard
-                  cardIsPremium
-                  cardImage = '../../../markup/img/apartment-01.jpg'
-                  cardPriceValue = {120}
-                  cardStarsRating = {4}
-                  cardTitle = 'Beautiful &amp; luxurious apartment at great location'
-                  cardType = 'Apartment'
-                  cardIsFavorites = {false}
-                />
-                <PlaceCard
-                  cardIsPremium = {false}
-                  cardImage = '../../../markup/img/room.jpg'
-                  cardPriceValue = {80}
-                  cardStarsRating = {4}
-                  cardTitle = 'Wood and stone place'
-                  cardType = 'Room'
-                  cardIsFavorites
-                />
-                <PlaceCard
-                  cardIsPremium = {false}
-                  cardImage = '../../../markup/img/apartment-02.jpg'
-                  cardPriceValue = {132}
-                  cardStarsRating = {4}
-                  cardTitle = 'Canal View Prinsengracht'
-                  cardType = 'Apartment'
-                  cardIsFavorites = {false}
-                />
-                <PlaceCard
-                  cardIsPremium
-                  cardImage = '../../../markup/img/apartment-03.jpg'
-                  cardPriceValue = {180}
-                  cardStarsRating = {5}
-                  cardTitle = 'Nice, cozy, warm big bed apartment'
-                  cardType = 'Apartment'
-                  cardIsFavorites = {false}
-                />
-                <PlaceCard
-                  cardIsPremium = {false}
-                  cardImage = '../../../markup/img/room.jpg'
-                  cardPriceValue = {80}
-                  cardStarsRating = {4}
-                  cardTitle = 'Wood and stone place'
-                  cardType = 'Room'
-                  cardIsFavorites
-                />
-              </div>
+              {offers && offers.length > 0 &&
+              <PlaceCardList offers={offers} isFavoriteList={false}/>}
             </section>
             <div className="cities__right-section">
               <section className="cities__map map" />
