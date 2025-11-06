@@ -8,7 +8,8 @@ type OfferListProps = {
 }
 
 function PlaceCardList({offers, isFavoriteList}: OfferListProps): JSX.Element {
-  const [chosenId, setChosenId] = useState<OfferProps['id'] | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_chosenId, setChosenId] = useState<OfferProps['id'] | null>(null);
 
   return (
     <div className={isFavoriteList ? 'favorites__places' : 'cities__places-list places__list tabs__content'}>
