@@ -4,21 +4,24 @@ import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import LoginScreen from '../../pages/login-screen/login-screen.tsx';
 import FavoritesScreen from '../../pages/favorites-screen/favorites-screen.tsx';
 import OfferScreen from '../../pages/offer-screen/offer-screen.tsx';
-import PrivateRoute from '../private-route.tsx';
+import PrivateRoute from '../private-route/private-route.tsx';
 import {HelmetProvider} from 'react-helmet-async';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen.tsx';
+import {OfferProps} from '../../types/offer.ts';
+import {comments} from '../../mocks/comments.ts';
+
 type AppProps = {
-  offersCount: number;
+  offers: OfferProps[];
 }
 
-function App({offersCount}: AppProps) {
+function App({offers}: AppProps) {
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
           <Route
             path={AppRoute.Root}
-            element={<MainScreen offersCount={offersCount}/>}
+            element={<MainScreen offers={offers}/>}
           />
           <Route
             path={AppRoute.Login}
@@ -27,16 +30,14 @@ function App({offersCount}: AppProps) {
           <Route
             path={AppRoute.Favorites}
             element={
-              <PrivateRoute
-                authorizationStatus={AuthorizationStatus.NoAuth}
-              >
-                <FavoritesScreen/>
+              <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+                <FavoritesScreen offers={offers}/>
               </PrivateRoute>
             }
           />
           <Route
             path={AppRoute.Offer}
-            element={<OfferScreen/>}
+            element={<OfferScreen offer={offers[0]} reviews={comments}/>}
           />
           <Route
             path="*"
