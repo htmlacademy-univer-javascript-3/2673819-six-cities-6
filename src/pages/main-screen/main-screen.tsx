@@ -2,12 +2,16 @@
 import Logo from '../../components/logo/logo.tsx';
 import {OfferProps} from '../../types/offer.ts';
 import PlaceCardList from '../../components/place-card-list/place-card-list.tsx';
+import Map from '../../components/map/map.tsx';
+import {useState} from 'react';
 
 type MainScreenProps = {
   offers: OfferProps[];
 };
 
 function MainScreen({offers}: MainScreenProps): JSX.Element {
+  const [chosenId, setChosenId] = useState<OfferProps['id'] | null>(null);
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -110,10 +114,10 @@ function MainScreen({offers}: MainScreenProps): JSX.Element {
                 </ul>
               </form>
               {offers && offers.length > 0 &&
-              <PlaceCardList offers={offers} isFavoriteList={false}/>}
+              <PlaceCardList offers={offers} setChosenId={setChosenId} isFavoriteList={false}/>}
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map" />
+              <Map chosenId={chosenId} city={offers[0].city} offers={offers}/>
             </div>
           </div>
         </div>

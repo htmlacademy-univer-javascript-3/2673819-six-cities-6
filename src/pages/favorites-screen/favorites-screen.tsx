@@ -2,6 +2,7 @@ import Logo from '../../components/logo/logo.tsx';
 import {Link} from 'react-router-dom';
 import {OfferProps} from '../../types/offer.ts';
 import PlaceCardList from '../../components/place-card-list/place-card-list.tsx';
+import {useState} from 'react';
 
 type FavoritesScreenProps = {
   offers: OfferProps[];
@@ -9,6 +10,7 @@ type FavoritesScreenProps = {
 
 function FavoritesScreen({offers}:FavoritesScreenProps): JSX.Element {
   const cities = [...new Set(offers.map((offer) => offer.city.name))];
+  const [, setChosenId] = useState<OfferProps['id'] | null>(null);
 
   return (
     <div className="page">
@@ -59,6 +61,7 @@ function FavoritesScreen({offers}:FavoritesScreenProps): JSX.Element {
                   <PlaceCardList
                     offers={offers.filter((offer) => offer.city.name === city)}
                     isFavoriteList
+                    setChosenId={setChosenId}
                   />
                 </li>
               ))}
