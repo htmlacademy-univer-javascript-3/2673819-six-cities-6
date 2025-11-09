@@ -1,16 +1,13 @@
 import PlaceCard from '../place-card/place-card.tsx';
 import {OfferProps} from '../../types/offer.ts';
-import {useState} from 'react';
 
 type OfferListProps = {
   offers: OfferProps[];
   isFavoriteList: boolean;
+  setChosenId: (id: OfferProps['id'] | null) => void;
 }
 
-function PlaceCardList({offers, isFavoriteList}: OfferListProps): JSX.Element {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_chosenId, setChosenId] = useState<OfferProps['id'] | null>(null);
-
+function PlaceCardList({offers, isFavoriteList, setChosenId}: OfferListProps): JSX.Element {
   return (
     <div className={isFavoriteList ? 'favorites__places' : 'cities__places-list places__list tabs__content'}>
       {offers.map((offer) => (
