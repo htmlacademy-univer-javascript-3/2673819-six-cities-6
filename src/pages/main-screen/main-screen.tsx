@@ -3,10 +3,13 @@ import Logo from '../../components/logo/logo.tsx';
 import PlaceCardList from '../../components/place-card-list/place-card-list.tsx';
 import CitiesList from '../../components/cities-list/cities-list.tsx';
 import {cities} from '../../mocks/cities.ts';
-
+import {useState} from 'react';
+import Map from '../../components/map/map.tsx';
 
 function MainScreen(): JSX.Element {
   const offers = useAppSelector((state) => state.offers) ?? [];
+
+  const [chosenId, setChosenId] = useState<string | null>(null);
 
   return (
     <div className="page page--gray page--main">
@@ -82,7 +85,13 @@ function MainScreen(): JSX.Element {
               <PlaceCardList offers={offers} setChosenId={setChosenId} isFavoriteList={false}/>}
             </section>
             <div className="cities__right-section">
-              <Map chosenId={chosenId} city={offers[0].city} offers={offers}/>
+              {offers.length > 0 && (
+                <Map
+                  chosenId={chosenId}
+                  city={offers[0].city}
+                  offers={offers}
+                />
+              )}
             </div>
           </div>
         </div>
