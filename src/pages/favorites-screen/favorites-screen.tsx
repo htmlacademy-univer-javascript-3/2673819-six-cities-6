@@ -1,16 +1,14 @@
 import Logo from '../../components/logo/logo.tsx';
 import {Link} from 'react-router-dom';
-import {OfferProps} from '../../types/offer.ts';
 import PlaceCardList from '../../components/place-card-list/place-card-list.tsx';
+import {useAppSelector} from '../../hooks';
+import {cities} from '../../mocks/cities.ts';
 import {useState} from 'react';
 
-type FavoritesScreenProps = {
-  offers: OfferProps[];
-}
-
-function FavoritesScreen({offers}:FavoritesScreenProps): JSX.Element {
-  const cities = [...new Set(offers.map((offer) => offer.city.name))];
-  const [, setChosenId] = useState<OfferProps['id'] | null>(null);
+function FavoritesScreen(): JSX.Element {
+  const favorites = useAppSelector((state) => state.favorites);
+  const cityNameList = cities.map((city) => city.name);
+  const [, setChosenId] = useState<string | null>(null);
 
   return (
     <div className="page">
@@ -49,7 +47,7 @@ function FavoritesScreen({offers}:FavoritesScreenProps): JSX.Element {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              {cities.map((city) => (
+              {cityNameList.map((city) => (
                 <li key={city} className="favorites__locations-items">
                   <div className="favorites__locations locations locations--current">
                     <div className="locations__item">
@@ -59,7 +57,7 @@ function FavoritesScreen({offers}:FavoritesScreenProps): JSX.Element {
                     </div>
                   </div>
                   <PlaceCardList
-                    offers={offers.filter((offer) => offer.city.name === city)}
+                    offers={favorites.filter((offer) => offer.city.name === city)}
                     isFavoriteList
                     setChosenId={setChosenId}
                   />

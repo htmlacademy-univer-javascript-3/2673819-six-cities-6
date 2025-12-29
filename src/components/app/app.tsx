@@ -7,21 +7,17 @@ import OfferScreen from '../../pages/offer-screen/offer-screen.tsx';
 import PrivateRoute from '../private-route/private-route.tsx';
 import {HelmetProvider} from 'react-helmet-async';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen.tsx';
-import {OfferProps} from '../../types/offer.ts';
 import {comments} from '../../mocks/comments.ts';
+import {offers} from '../../mocks/offers.ts';
 
-type AppProps = {
-  offers: OfferProps[];
-}
-
-function App({offers}: AppProps) {
+function App() {
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
           <Route
             path={AppRoute.Root}
-            element={<MainScreen offers={offers}/>}
+            element={<MainScreen/>}
           />
           <Route
             path={AppRoute.Login}
@@ -31,7 +27,7 @@ function App({offers}: AppProps) {
             path={AppRoute.Favorites}
             element={
               <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-                <FavoritesScreen offers={offers}/>
+                <FavoritesScreen/>
               </PrivateRoute>
             }
           />
