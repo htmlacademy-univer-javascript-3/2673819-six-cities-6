@@ -57,6 +57,7 @@ function FavoritesScreen(): JSX.Element {
                   <PlaceCardList
                     offers={favorites.filter((offer) => offer.city.name === city)}
                     isFavoriteList
+                    setChosenId={setChosenId}
                   />
                 </li>
               ))}

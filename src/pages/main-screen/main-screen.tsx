@@ -7,6 +7,7 @@ import {cities} from '../../mocks/cities.ts';
 
 function MainScreen(): JSX.Element {
   const offers = useAppSelector((state) => state.offers) ?? [];
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -78,10 +79,10 @@ function MainScreen(): JSX.Element {
                 </ul>
               </form>
               {offers && offers.length > 0 &&
-              <PlaceCardList offers={offers} isFavoriteList={false}/>}
+              <PlaceCardList offers={offers} setChosenId={setChosenId} isFavoriteList={false}/>}
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map" />
+              <Map chosenId={chosenId} city={offers[0].city} offers={offers}/>
             </div>
           </div>
         </div>
