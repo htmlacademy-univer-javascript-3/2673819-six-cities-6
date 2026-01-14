@@ -1,9 +1,9 @@
-import {OfferProps} from '../../types/offer.ts';
+import {OfferPreviewProps} from '../../types/offer.ts';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const.ts';
 
 type PlaceCardProps = {
-  offer: OfferProps;
+  offer: OfferPreviewProps;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
   isFavoriteList: boolean;
@@ -18,9 +18,9 @@ const typePlace = {
 
 
 function PlaceCard({offer, onMouseEnter, onMouseLeave, isFavoriteList}: PlaceCardProps): JSX.Element {
-  const {isPremium, images, price, isFavorite, rating, title, type, id} = offer;
+  const {isPremium, previewImage, price, isFavorite, rating, title, type, id} = offer;
   const typePlaceCard: string = typePlace[type] || 'Unknown';
-  const previewImage = images[0];
+
 
   return (
     <article className={isFavoriteList ? 'favorites__card place-card' : 'cities__card place-card'}

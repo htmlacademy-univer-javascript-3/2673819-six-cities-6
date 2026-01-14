@@ -2,13 +2,12 @@ import {useEffect, useRef} from 'react';
 import {Icon, Marker, layerGroup} from 'leaflet';
 import {CityProps} from '../../types/city.ts';
 import useMap from '../../hooks/use-map.tsx';
-import {OfferProps} from '../../types/offer.ts';
-
+import {OfferPreviewProps} from '../../types/offer.ts';
 
 type MapProps = {
   chosenId: string | null;
   city: CityProps;
-  offers: OfferProps[];
+  offers: OfferPreviewProps[];
 };
 
 const defaultCustomIcon = new Icon({
@@ -51,9 +50,9 @@ function Map(props: MapProps): JSX.Element {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, offers, chosenId]);
+  }, [map, offers, chosenId, mapRef]);
 
-  return <section className="cities__map map" ref={mapRef}></section>;
+  return <section className="cities__right-section" ref={mapRef}></section>;
 }
 
 export default Map;

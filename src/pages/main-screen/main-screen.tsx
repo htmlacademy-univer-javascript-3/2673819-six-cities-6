@@ -1,48 +1,20 @@
 import {useAppSelector} from '../../hooks';
-import Logo from '../../components/logo/logo.tsx';
 import PlaceCardList from '../../components/place-card-list/place-card-list.tsx';
 import CitiesList from '../../components/cities-list/cities-list.tsx';
-import {cities} from '../../mocks/cities.ts';
 import {useState} from 'react';
 import Map from '../../components/map/map.tsx';
+import {SortingOptions} from '../../components/sorting-options/sorting-options.tsx';
+import {cities} from '../../mocks/cities.ts';
+import {Header} from '../../components/header/header.tsx';
 
 function MainScreen(): JSX.Element {
-  const offers = useAppSelector((state) => state.offers) ?? [];
-
+  const offers = useAppSelector((state) => state.Offer.offers) ?? [];
+  const activeCity = useAppSelector((state) => state.Offer.activeCity);
   const [chosenId, setChosenId] = useState<string | null>(null);
-
+  const offersByCity = offers.filter((offer) => offer.city.name === activeCity.name);
   return (
     <div className="page page--gray page--main">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <Logo />
-            </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <a
-                    className="header__nav-link header__nav-link--profile"
-                    href="#"
-                  >
-                    <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                    <span className="header__user-name user__name">
-                  Oliver.conner@gmail.com
-                    </span>
-                    <span className="header__favorite-count">3</span>
-                  </a>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
-                    <span className="header__signout">Sign out</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header />
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
@@ -51,49 +23,37 @@ function MainScreen(): JSX.Element {
           </section>
         </div>
         <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
-              <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
-                <span className="places__sorting-type" tabIndex={0}>
-              Popular
-                  <svg className="places__sorting-arrow" width={7} height={4}>
-                    <use xlinkHref="#icon-arrow-select" />
-                  </svg>
-                </span>
-                <ul className="places__options places__options--custom places__options--opened">
-                  <li
-                    className="places__option places__option--active"
-                    tabIndex={0}
-                  >
-                    Popular
-                  </li>
-                  <li className="places__option" tabIndex={0}>
-                    Price: low to high
-                  </li>
-                  <li className="places__option" tabIndex={0}>
-                    Price: high to low
-                  </li>
-                  <li className="places__option" tabIndex={0}>
-                    Top rated first
-                  </li>
-                </ul>
-              </form>
-              {offers && offers.length > 0 &&
-              <PlaceCardList offers={offers} setChosenId={setChosenId} isFavoriteList={false}/>}
-            </section>
-            <div className="cities__right-section">
-              {offers.length > 0 && (
-                <Map
-                  chosenId={chosenId}
-                  city={offers[0].city}
-                  offers={offers}
-                />
-              )}
+          {offersByCity.length === 0 && (
+            <div className="cities__places-container cities__places-container--empty container">
+              <section className="cities__no-places">
+                <div className="cities__status-wrapper tabs__content">
+                  <b className="cities__status">No places to stay available</b>
+                  <p className="cities__status-description">We could not find any property available at the moment in {activeCity.name}</p>
+                </div>
+              </section>
+              <div className="cities__right-section"></div>
             </div>
-          </div>
+          )}
+          {offersByCity.length > 0 && (
+            <div className="cities__places-container container">
+              <section className="cities__places places">
+                <h2 className="visually-hidden">Places</h2>
+                <b className="places__found">{offersByCity.length} places to stay in {activeCity.name}</b>
+                <SortingOptions/>
+                {offersByCity && offersByCity.length > 0 &&
+                  <PlaceCardList offers={offersByCity} setChosenId={setChosenId} isFavoriteList={false}/>}
+              </section>
+              <div className="cities__right-section">
+                {offersByCity.length > 0 && (
+                  <Map
+                    chosenId={chosenId}
+                    city={activeCity}
+                    offers={offersByCity}
+                  />
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </main>
     </div>

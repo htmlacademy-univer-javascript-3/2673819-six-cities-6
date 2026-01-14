@@ -3,19 +3,23 @@ import ReactDOM from 'react-dom/client';
 import {Provider} from 'react-redux';
 import App from './components/app/app.tsx';
 import {store} from './store';
-import {offers} from './mocks/offers.ts';
-import {fetchOffers} from './store/actions.ts';
+import {checkAuthAction, fetchOffers} from './store/api-actions.ts';
+import HistoryRouter from './components/history-router/history-router.tsx';
+import browserHistory from './browser-history.ts';
+
+store.dispatch(checkAuthAction());
+store.dispatch(fetchOffers());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-store.dispatch(fetchOffers(offers));
-
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App/>
+      <HistoryRouter history={browserHistory}>
+        <App/>
+      </HistoryRouter>
     </Provider>
   </React.StrictMode>
 );

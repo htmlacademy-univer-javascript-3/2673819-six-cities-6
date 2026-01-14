@@ -20,4 +20,17 @@ export type OfferProps = {
   maxAdults: number;
 }
 
+export type OfferPreviewProps = {
+  id: string;
+  title: string;
+  type: 'hotel' | 'room' | 'apartment' | 'house';
+  price: number;
+  city: CityProps;
+  location: LocationProps;
+  isPremium: boolean;
+  isFavorite: boolean;
+  rating: number;
+  previewImage: string;
+}
+
 

@@ -1,10 +1,10 @@
 import PlaceCard from '../place-card/place-card.tsx';
-import {OfferProps} from '../../types/offer.ts';
+import {OfferPreviewProps} from '../../types/offer.ts';
 
 type OfferListProps = {
-  offers: OfferProps[];
+  offers: OfferPreviewProps[];
   isFavoriteList: boolean;
-  setChosenId: (id: OfferProps['id'] | null) => void;
+  setChosenId: (id: OfferPreviewProps['id'] | null) => void;
 }
 
 function PlaceCardList({offers, isFavoriteList, setChosenId}: OfferListProps): JSX.Element {

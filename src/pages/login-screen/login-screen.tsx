@@ -1,6 +1,29 @@
 import Logo from '../../components/logo/logo.tsx';
+import {loginAction} from '../../store/api-actions.ts';
+import {useAppDispatch} from '../../hooks';
+import {FormEvent, useRef} from 'react';
 
 function LoginScreen(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const loginFormRef = useRef<HTMLFormElement | null>(null);
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+
+    if (loginFormRef.current === null) {
+      return;
+    }
+    const formData = new FormData(loginFormRef.current);
+
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+
+    dispatch(loginAction({
+      email: email,
+      password: password,
+    }));
+
+
+  };
   return (
     <div className="page page--gray page--login">
       <header className="header">
@@ -16,7 +39,7 @@ function LoginScreen(): JSX.Element {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" action="#" method="post">
+            <form className="login__form form" action="#" method="post" onSubmit={handleSubmit} ref={loginFormRef}>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 <input
@@ -39,13 +62,6 @@ function LoginScreen(): JSX.Element {
                 Sign in
               </button>
             </form>
-          </section>
-          <section className="locations locations--login locations--current">
-            <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
-              </a>
-            </div>
           </section>
         </div>
       </main>
